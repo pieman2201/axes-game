@@ -180,7 +180,7 @@ int main() {
             }
         }
         trigPos += trigDir;
-        frame_limit(5);
+        frame_limit(60);
     }
 
     SDL_DestroyWindow(window);
