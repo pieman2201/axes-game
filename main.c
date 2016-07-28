@@ -69,7 +69,7 @@ void add_targets(int score) {
     int x, val;
     srand(time(NULL));
     x = rand() % 32;
-    if (score >= 151515151515151515151515151515) {
+    if (score >= 15) {
         val = (rand() % 2) + 1;
     } else {
         val = 1;
