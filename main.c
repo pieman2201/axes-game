@@ -15,7 +15,7 @@ void frame_limit(int limit) {
     sinceTicks = SDL_GetTicks() - LastTicks;
     minTicks = 1000.0 / (float) limit;
     diffTicks = floor(minTicks - (float) sinceTicks + 0.5);
-    
+
     if (diffTicks > 0) {
         SDL_Delay((int) diffTicks);
     }
@@ -23,15 +23,24 @@ void frame_limit(int limit) {
 }
 
 void draw_grid(SDL_Surface *s) {
+    int color;
     for (int x = 0; x < 32; x++) {
         for (int y = 0; y < 32; y++) {
             if (PlayGrid[x][y] > 0) {
+                switch (PlayGrid[x][y]) {
+                    case 1:
+                        color = 0xff0000;
+                        break;
+                    case 2:
+                        color = 0x0000ff;
+                        break;
+                }
                 SDL_Rect targetRect;
                 targetRect.x = x * 24;
                 targetRect.y = 768 - 24 - (y * 24);
                 targetRect.w = 24;
                 targetRect.h = 24;
-                SDL_FillRect(s, &targetRect, 0xff0000);
+                SDL_FillRect(s, &targetRect, color);
             }
         }
     }
@@ -56,11 +65,16 @@ bool move_down() {
     return true;
 }
 
-void add_targets() {
-    int x;
+void add_targets(int score) {
+    int x, val;
     srand(time(NULL));
     x = rand() % 32;
-    PlayGrid[x][31] = 1;
+    if (score >= 151515151515151515151515151515) {
+        val = (rand() % 2) + 1;
+    } else {
+        val = 1;
+    }
+    PlayGrid[x][31] = val;
 }
 
 int main() {
@@ -155,7 +169,7 @@ int main() {
                     hasShotY = true;
                     trigPos = 0 - 2 * step;
                     triggered = false;
-                } 
+                }
                 if (trigPos <= 2) {
                     trigDir = step;
                 } else if (trigPos >= 768) {
@@ -172,7 +186,7 @@ int main() {
         }
         if (SDL_GetTicks() - lastUpdate > 2000) {
             run = move_down();
-            add_targets();
+            add_targets(score);
             lastUpdate = SDL_GetTicks();
             if (!run) {
                 printf("Score: %d\n", score);
