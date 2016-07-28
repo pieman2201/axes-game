@@ -4,7 +4,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 unsigned int LastTicks;
 int PlayGrid[32][32];
@@ -37,7 +36,7 @@ void draw_grid(SDL_Surface *s) {
         }
     }
 }
-                            
+
 bool move_down() {
     for (int x = 0; x < 32; x++) {
         for (int y = 0; y < 32; y++) {
